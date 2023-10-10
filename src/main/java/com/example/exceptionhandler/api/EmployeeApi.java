@@ -1,6 +1,7 @@
 package com.example.exceptionhandler.api;
 
 import com.example.exceptionhandler.entity.Employee;
+import com.example.exceptionhandler.expection.NameAdminException;
 import com.example.exceptionhandler.repository.EmployeeRepo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.EntityNotFoundException;
@@ -47,6 +48,9 @@ public class EmployeeApi {
 
     @PostMapping
     public  EmployeeResponse create( @RequestBody  @Valid EmployeeForm employee){
+        if ("admin".equalsIgnoreCase(employee.firstName)){
+            throw new NameAdminException();
+        }
         return  toDto(repo.save(toEntity(employee)));
     }
 
